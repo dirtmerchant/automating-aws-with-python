@@ -43,21 +43,18 @@ def list_bucket_objects(bucket):
     for obj in s3.Bucket(bucket).objects.all():
         print(obj)
 
-
 @cli.command('setup-bucket')
 @click.argument('bucket')
 def setup_bucket(bucket):
-    """Create and configure S3 bucket"""
-
+    "Create and configure S3 bucket"
     s3_bucket = None
     try:
         s3_bucket = s3.create_bucket(
-            Bucket='bucket',
-            CreateBucketConfiguration={
-                'LocationConstraint': session.region_name}
+            Bucket=bucket,
+            CreateBucketConfiguration={'LocationConstraint': session.region_name}
         )
     except ClientError as e:
-        if e.response['Error']['Code'] == 'BucketAlreadyExists':
+        if e.response['Error']['Code'] == 'BucketAlreadyOwnedByYou':
             s3_bucket = s3.Bucket(bucket)
         else:
             raise e
@@ -69,9 +66,9 @@ def setup_bucket(bucket):
       "Sid":"PublicReadGetObject",
       "Effect":"Allow",
       "Principal": "*",
-        "Action":["s3:GetObject"],
-        "Resource":["arn:aws:s3:::%s/*"
-        ]
+          "Action":["s3:GetObject"],
+          "Resource":["arn:aws:s3:::%s/*"
+          ]
         }
       ]
     }
@@ -92,6 +89,7 @@ def setup_bucket(bucket):
     })
 
     return
+
 
 def upload_file(s3_bucket, path, key):
     content_type = mimetypes.guess_type(key)[0] or 'text/plain'
