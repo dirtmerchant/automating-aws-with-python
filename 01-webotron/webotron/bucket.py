@@ -44,7 +44,7 @@ class BucketManager:
         return "http://{}.{}".format(
             bucket.name,
             util.get_endpoint(self.get_region_name(bucket)).host
-            )
+        )
 
     def all_buckets(self):
         """Get an iterator for all buckets."""
@@ -147,7 +147,6 @@ class BucketManager:
 
         etag = self.gen_etag(path)
         if self.manifest.get(key, '') == etag:
-            print("Skipping {}, etags match".format(key))
             return
 
         return bucket.upload_file(
