@@ -44,7 +44,7 @@ class BucketManager:
         return "http://{}.{}".format(
             bucket.name,
             util.get_endpoint(self.get_region_name(bucket)).host
-        )
+            )
 
     def all_buckets(self):
         """Get an iterator for all buckets."""

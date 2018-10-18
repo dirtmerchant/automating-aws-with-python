@@ -21,6 +21,7 @@ import util
 
 session = None
 bucket_manager = None
+domain_manager = None
 
 
 @click.group()
@@ -85,9 +86,7 @@ def setup_domain(domain):
 
     endpoint = util.get_endpoint(bucket_manager.get_region_name(bucket))
     domain_manager.create_s3_domain_record(zone, domain, endpoint)
-    print("Domain configured: http://{}".format(domain))
-
-    print(zone)
+    print("Domain configure: http://{}".format(domain))
 
 
 if __name__ == '__main__':
